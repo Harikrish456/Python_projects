@@ -1,8 +1,11 @@
 import random
 
 guess = random.randint(1,9)
+name = 'Harikrish'
+print(name)
 
-chances = 0
+chances = 0 
+
 
 while chances <= 5 :
     chances = chances + 1
