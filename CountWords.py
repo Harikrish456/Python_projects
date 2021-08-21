@@ -1,13 +1,15 @@
 import random
 
-number = random.randint(1,9)
-print(number)
+
 
 sentence = input("Enter string")
 print(sentence)
 
 characterCount = 0
 wordCount = 1
+
+characters = len(sentence)
+print(characters)
 
 for i in sentence:
     characterCount = characterCount + 1
