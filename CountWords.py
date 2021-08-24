@@ -1,7 +1,7 @@
 import random
+import CountFunction
 
-
-
+CountFunction.CountWordsFromFile()
 sentence = input("Enter string")
 print(sentence)
 
