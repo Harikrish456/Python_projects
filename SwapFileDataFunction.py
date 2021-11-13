@@ -13,7 +13,8 @@ def SwapFileData(fileName, fileName2):
 
     file2 = open(nameOfFile2, 'w')
     file2.write(data1)
-
+    
+    
     print('Data successfully swapped!')
 
     

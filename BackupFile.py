@@ -5,7 +5,7 @@ source = input('Enter your source folder: ')
 destination = input('Enter your destination folder: ')
 
 listOfFiles = os.listdir(source)
-print(listOfFiles)
+print(listOfFiles) 
 source = source + '/'
 destination = destination + '/'
 

@@ -6,8 +6,12 @@ def CountWordsFromFile():
     print(file)
     for line in file:
         print(line)
-        words = line.split(',')
+        words = line.split()
         numberOfWords = numberOfWords + len(words)
         print(len(words))
     print(numberOfWords)  
+    file = open('textclone.txt', 'x')
+    file.write('\n')
+    file.write('number of words in' + fileName + str(numberOfWords))
+    file.close()
 CountWordsFromFile()
