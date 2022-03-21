@@ -53,6 +53,9 @@ def mode(list_of_nums):
 
 print(mode(listData))
 
+
+##trying to find mode##
+
 ##for height, occurrence in counterData.items():
     ##if 50 < float(height) <60:
         ##mode_data_for_range["50-60"] += occurrence
