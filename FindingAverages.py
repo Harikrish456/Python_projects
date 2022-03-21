@@ -1,6 +1,8 @@
 from collections import Counter
-import csv 
+import csv
+from pstats import Stats 
 import pandas as pd
+import statistics
 
 with open('hwdata.csv', newline = '') as f: 
  reader = csv.reader(f)
@@ -39,6 +41,8 @@ else:
 counterData = Counter(newData)
 print(counterData)
 
+## my own code to find mode ##
+
 listData = list(newData)
 
 list = counterData.items()
@@ -49,23 +53,11 @@ def mode(list_of_nums):
         occurrences = list_of_nums.count(num)
         if occurrences > max_count[0]:
             max_count = (occurrences, num)
+        
     return max_count[1]
 
 print(mode(listData))
 
-
-##trying to find mode##
-
-##for height, occurrence in counterData.items():
-    ##if 50 < float(height) <60:
-        ##mode_data_for_range["50-60"] += occurrence
-   ## elif 60 < float(height) < 70:
-       ## mode_data_for_range["60-70"] += occurrence
-  ##  elif 70 < float(mode_data_for_range) < 80:
-    ##    mode_data_for_range["70-80"] += occurrence
-
-##mode_range, mode_occurence = 0,0
-##for range, occurrence in mode_data_for_range.items():
-    ##if occurrence > mode_occurence:
-       ## mode_range, mode_occurence = [int(range.split("-")[0]), int(range.split("-")[1]), occurrence]
+mode2 = statistics.mode(newData)
+print(mode2)
 
