@@ -53,8 +53,13 @@ def mode(list_of_nums):
         occurrences = list_of_nums.count(num)
         if occurrences > max_count[0]:
             max_count = (occurrences, num)
-        
-    return max_count[1]
+           
+    print('occurence =',occurrences)
+    if max_count[0] > 1:
+        return max_count[1]     
+    else:       
+       print('no mode')
+   
 
 print(mode(listData))
 
