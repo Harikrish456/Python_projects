@@ -1,5 +1,5 @@
 import pandas as pd 
-import plotly_express as px
+import plotly.express as px
 
 df = pd.read_csv('studentdata.csv')
 mean = df.groupby(['student_id', 'level'], as_index=False)['attempt'].mean()
