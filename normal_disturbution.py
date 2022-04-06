@@ -25,7 +25,7 @@ print('The mode is --> \n', mode)
 standard_deviation = statistics.stdev(diceResult)
 print('The standard deviation is --> \n', standard_deviation)
 
-fig_2 = ff.create_distplot([diceResult], ['diceResult'], show_hist = False)
+fig_2 = ff.create_distplot([diceResult], ['dice         Result'], show_hist = False)
 fig_2.show()
 
 first_std_start, first_std_end = mean - standard_deviation, mean + standard_deviation
