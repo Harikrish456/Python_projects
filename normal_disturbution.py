@@ -17,7 +17,7 @@ for i in range(0,1000):
     count.append(i)
 
 mean = sum(diceResult)/len(diceResult)
-print('The median is --> \n', mean)
+print('The mean is --> \n', mean)
 median = statistics.median(diceResult)
 print('The median is --> \n', median)
 mode = statistics.mode(diceResult)
