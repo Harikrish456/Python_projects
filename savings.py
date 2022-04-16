@@ -11,7 +11,7 @@ df = pd.read_csv('savings_data.csv')
 with open('savings_data.csv', newline='') as f:
     reader = csv.reader(f)
     file_data = list(reader)
-
+    
 #To remove headers from CSV
 file_data.pop(0)
 
