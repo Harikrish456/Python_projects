@@ -1,3 +1,4 @@
+from cv2 import mean
 import numpy as np
 import pandas as pd
 import plotly.express as px
@@ -27,34 +28,68 @@ upper_whisker = q3 + 1.5*iqr
 print(f'Lower whisker - {lower_whisker}')
 print(f'The upper whisker - {upper_whisker}')
 
-revised_df = df[df['quant_saved'] < upper_whisker]
-new_savings = revised_df['quant_saved'].tolist()
+new_df = df[df['quant_saved'] < upper_whisker]
+all_savings = new_df['quant_saved'].tolist()
 
-print(f'Mean of revised savings - {statistics.mean(new_savings)}')
-print(f'Mode of revised savings - {statistics.mode(new_savings)}')
-print(f'Median of revised savings - {statistics.median(new_savings)}')
-print(f'Standard deviation of revised savings - {statistics.stdev(new_savings)}')
+print(f'Mean of revised savings - {statistics.mean(all_savings)}')
+print(f'Mode of revised savings - {statistics.mode(all_savings)}')
+print(f'Median of revised savings - {statistics.median(all_savings)}')
+print(f'Standard deviation of revised savings - {statistics.stdev(all_savings)}')
 
-fig_revised = ff.create_distplot([new_savings], ['Revised Savings Data'], show_hist=False)
+fig_revised = ff.create_distplot([all_savings], ['Revised Savings Data'], show_hist=False)
 fig_revised.show()
+remained_df = new_df.loc[new_df['rem_any'] == 1]
+not_remainded_df = new_df.loc[new_df['rem_any'] == 0]
 
-sampling_mean_list = []
+fig_notrem = ff.create_distplot([not_remainded_df['quant_saved'].tolist()], ['Savings (not remainded)'], show_hist = False)
+fig_notrem.show()
+
+not_remainded_savings = not_remainded_df['quant_saved'].tolist()
+
+
+sampling_mean_list_not_remainded = []
 for i in range(1000):
     temp_list = []
     for j in range(100):
-        temp_list.append(random.choice(new_savings))
-    sampling_mean_list.append(statistics.mean(temp_list))
+        temp_list.append(random.choice(all_savings))
+    sampling_mean_list_not_remainded.append(statistics.mean(temp_list))
 
-mean_sampling = statistics.mean(sampling_mean_list)
-fig_sampmean = ff.create_distplot([sampling_mean_list], ['Sampled Savings List '], showhist=False)
-fig_sampmean.add_trace(go.Scatter(x = [mean_sampling, mean_sampling], y = [0,0.1], mode='lines', name = 'mean'))
+mean_sampling_not_remainded = statistics.mean(sampling_mean_list_not_remainded)
+stdev_sampling_not_remainded = statistics.stdev(sampling_mean_list_not_remainded)
+fig_sampmean = ff.create_distplot([sampling_mean_list_not_remainded], ['Sampled Savings List '], showhist=False)
+fig_sampmean.add_trace(go.Scatter(x = [mean_sampling_not_remainded, mean_sampling_not_remainded], y = [0,0.1], mode='lines', name = 'mean'))
 fig_sampmean.show()
 
-print(f'Standard deviation of sampled mean - {statistics.stdev(sampling_mean_list)}')
-print(f'Mean of raw data - {statistics.mean(new_savings)}')
+print(f'Mean of sampling (not remainded) - {mean_sampling_not_remainded}')
+print(f'The standarddeviation of the sampling (not remainded) - {stdev_sampling_not_remainded}')
+
+not_remainded_savings = remained_df['quant_saved'].tolist()
+
+
+sampling_mean_list_remainded = []
+for i in range(1000):
+    temp_list = []
+    for j in range(100):
+        temp_list.append(random.choice(all_savings))
+    sampling_mean_list_remainded.append(statistics.mean(temp_list))
+
+mean_sampling_remainded = statistics.mean(sampling_mean_list_remainded)
+stdev_sampling_remainded = statistics.stdev(sampling_mean_list_remainded)
+fig_sampmean_2 = ff.create_distplot([sampling_mean_list_remainded], ['Sampled Savings List '], showhist=False)
+fig_sampmean_2.add_trace(go.Scatter(x = [mean_sampling_remainded, mean_sampling_remainded], y = [0,0.1], mode='lines', name = 'mean'))
+fig_sampmean_2.show()
+
+print(f'Mean of sampling (not remainded) - {mean_sampling_remainded}')
+print(f'The standarddeviation of the sampling (not remainded) - {stdev_sampling_remainded}')
+
+print(f'Standard deviation of sampled mean - {statistics.stdev(sampling_mean_list_remainded)}')
+print(f'Mean of raw data - {statistics.mean(all_savings)}')
 ##print(f'Mean of sampled distribution - {statistics.mean(mean_sampling)}')
 
-temp_df = revised_df[revised_df.age != 0 ]
+z_score = (mean_sampling_remainded - mean_sampling_not_remainded) / stdev_sampling_not_remainded
+print(f'z_score - {z_score}')
+
+temp_df = new_df[new_df.age != 0 ]
 
 age = temp_df['age'].tolist()
 savings = temp_df['quant_saved'].tolist()
@@ -62,16 +97,24 @@ savings = temp_df['quant_saved'].tolist()
 correlation = np.corrcoef(age, savings)
 print(f'Correlation is - {correlation}')
 
-remained_df = revised_df.loc[revised_df['rem_any'] == 1]
-notrem_df = revised_df.loc[revised_df['rem_any'] == 0]
 
-fig_notrem = ff.create_distplot([notrem_df['quant_saved'].tolist()], ['Savings (not remainded)'], show_hist = False)
-fig_notrem.show()
+first_std_deviation_start = mean_sampling_not_remainded-stdev_sampling_not_remainded
+first_std_deviation_end = mean_sampling_not_remainded+stdev_sampling_not_remainded
+print(f'first start - {first_std_deviation_start} and first end - {first_std_deviation_end}')
+
+second_std_deviation_start = mean_sampling_not_remainded - (2*stdev_sampling_not_remainded)
+second_std_deviation_end = mean_sampling_not_remainded + (2*stdev_sampling_not_remainded)
+print(f'second start - {second_std_deviation_start} and second end - {second_std_deviation_end}')
+
+third_std_deviation_start = mean_sampling_not_remainded - (2*stdev_sampling_not_remainded)
+third_std_deviation_end = mean_sampling_not_remainded + (2*stdev_sampling_not_remainded)
+print(f'third start - {third_std_deviation_start} and third end - {third_std_deviation_end}')
 
 
 
 distplot_fig = ff.create_distplot([distplot_data], ['Quantity saved'], show_hist=True)
 distplot_fig.show()
+
 
 with open('savings_data.csv', newline='') as f:
     reader = csv.reader(f)
