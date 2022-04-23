@@ -2,7 +2,6 @@ import plotly.express as px
 import pandas as pd 
 import numpy as np
 
-
 ##Plotting scatter graph
 df = pd.read_csv('linear_regressiondata.csv')
 scatter = px.scatter(df, x='Height', y = 'Weight')
